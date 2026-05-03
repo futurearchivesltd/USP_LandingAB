@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peekaboo</title>
+<meta name="robots" content="noindex">
+<style>html,body{margin:0;background:#F9F8F5}</style>
+<script>
+  // Sticky 50/50 A/B router. Picks once per browser, redirects to the variant
+  // page. UTM/query params are preserved so Reddit ad tracking still works.
+  (function () {
+    var key = 'peekaboo_variant';
+    var v = localStorage.getItem(key);
+    if (v !== 'A' && v !== 'B') {
+      v = Math.random() < 0.5 ? 'A' : 'B';
+      try { localStorage.setItem(key, v); } catch (e) {}
+    }
+    var qs = window.location.search || '';
+    var hash = window.location.hash || '';
+    var target = (v === 'A' ? 'a.html' : 'b.html') + qs + hash;
+    window.location.replace(target);
+  })();
+</script>
+</head>
+<body></body>
+</html>

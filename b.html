@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peekaboo — Early Access</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<!-- PostHog -->
+<script>
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ei Ni init zi Gi Nr Ui Xi Hi capture calculateEventProperties tn register register_once register_for_session unregister unregister_for_session an getFeatureFlag getFeatureFlagPayload getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync ln identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty nn Qi createPersonProfile setInternalOrTestUser sn qi cn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Ji debug Fr rn getPageViewId captureTraceFeedback captureTraceMetric Bi".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  posthog.init('phc_pEz3MrS78ukNK7DmVeywuFaBbBLVYHHPj9T82nMENpLM', {
+    api_host: 'https://us.i.posthog.com',
+    defaults: '2026-01-30',
+    person_profiles: 'identified_only'
+  });
+  // Tag every event from this page with variant=B so reports can filter on it.
+  posthog.register({ ab_test: 'landing_v1', variant: 'B' });
+</script>
+<style>
+  :root {
+    --ink: #0F0F0E;
+    --ink-soft: #3A3A38;
+    --ink-muted: #7A7A76;
+    --ink-faint: #B8B8B3;
+    --surface: #F9F8F5;
+    --surface-raised: #FFFFFF;
+    --surface-subtle: #F1EFE9;
+    --accent: #1A5C4A;
+    --accent-mid: #2E8C6E;
+    --accent-light: #E4F4EE;
+    --accent-glow: rgba(46, 140, 110, 0.12);
+    --border: #E4E2DA;
+    --border-strong: #C8C5BB;
+    --error: #B91C1C;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-pill: 100px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── PAGE LAYOUT ── */
+  .page-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 64px 24px 60px;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--accent-mid); }
+  .nav-badge {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: 0.5px solid #A8DCC8;
+    border-radius: var(--radius-pill);
+    padding: 4px 12px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── EYEBROW ── */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: 0.5px solid #A8DCC8;
+    border-radius: var(--radius-pill);
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+  .eyebrow-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent-mid);
+  }
+
+  /* ── HERO ── */
+  .hero-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4.5vw, 38px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--accent-mid);
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  /* ── PROOF STRIP ── */
+  .proof-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    background: var(--surface-raised);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 4px 10px;
+    box-shadow: var(--shadow-sm);
+  }
+  .proof-icon { font-size: 12px; }
+
+  /* ── ARCHITECTURE PROOF BLOCK ── */
+  .arch-block {
+    background: var(--surface-raised);
+    border: 1px solid #A8DCC8;
+    border-left: 3px solid var(--accent-mid);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+  .arch-block-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-mid);
+    margin-bottom: 8px;
+  }
+  .arch-block-text {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── FEATURES ── */
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--surface-raised);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .feature:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .feature-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: var(--accent-light);
+    border: 0.5px solid #A8DCC8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .feature-text { flex: 1; }
+  .feature-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+  .feature-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    font-weight: 300;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+    position: relative;
+  }
+  .divider::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: -2px;
+    transform: translateX(-50%);
+    width: 40px; height: 5px;
+    background: var(--accent-mid);
+    border-radius: 3px;
+  }
+
+  /* ── EXIT SURVEY ── */
+  .exit-survey {
+    background: var(--surface-subtle);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .exit-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .exit-input {
+    width: 100%;
+    background: var(--surface-raised);
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    resize: vertical;
+    min-height: 64px;
+    transition: border-color 0.2s;
+  }
+  .exit-input:focus { border-color: var(--accent-mid); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .exit-input::placeholder { color: var(--ink-faint); font-style: italic; }
+
+  /* ── CTA ZONE ── */
+  .cta-zone {
+    background: var(--surface-raised);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 40px;
+  }
+  .cta-trust {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .cta-trust span {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .email-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .email-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .email-input:focus { border-color: var(--accent-mid); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .email-input::placeholder { color: var(--ink-faint); }
+  .email-input.error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(185,28,28,0.1); }
+  .cta-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 11px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
+    box-shadow: 0 2px 8px rgba(26, 92, 74, 0.3);
+  }
+  .cta-btn:hover:not(:disabled) { background: var(--accent-mid); box-shadow: 0 4px 16px rgba(26, 92, 74, 0.4); }
+  .cta-btn:disabled { opacity: 0.6; cursor: wait; }
+  .cta-sub {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+  .form-error {
+    color: var(--error);
+    font-size: 12px;
+    margin-top: 4px;
+    min-height: 16px;
+  }
+
+  /* ── THANK YOU STATE ── */
+  .thankyou {
+    display: none;
+    text-align: center;
+    padding: 28px 24px;
+  }
+  .thankyou.visible { display: block; }
+  .ty-icon { font-size: 36px; margin-bottom: 12px; }
+  .ty-heading { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--ink); margin-bottom: 10px; }
+  .ty-sub { font-size: 14px; color: var(--ink-soft); font-weight: 300; line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-faint);
+    padding-bottom: 20px;
+  }
+  .footer a { color: var(--ink-muted); text-decoration: none; }
+  .footer a:hover { color: var(--accent-mid); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .nav         { animation: fadeUp 0.4s ease both; }
+  .eyebrow     { animation: fadeUp 0.4s 0.08s ease both; }
+  .hero-headline { animation: fadeUp 0.5s 0.12s ease both; }
+  .hero-sub    { animation: fadeUp 0.5s 0.18s ease both; }
+  .proof-strip { animation: fadeUp 0.5s 0.22s ease both; }
+  .arch-block  { animation: fadeUp 0.5s 0.26s ease both; }
+  .features    { animation: fadeUp 0.5s 0.30s ease both; }
+  .exit-survey { animation: fadeUp 0.5s 0.34s ease both; }
+  .cta-zone    { animation: fadeUp 0.5s 0.38s ease both; }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- EYEBROW -->
+  <div class="eyebrow">
+    <div class="eyebrow-dot"></div>
+    <span>WE'RE ABOUT TO LAUNCH</span>
+  </div>
+
+  <!-- HERO -->
+  <h1 class="hero-headline">
+    Know your cyber risk score — calculated on your phone. <em>Never shared with us.</em>
+  </h1>
+
+  <p class="hero-sub">
+    Every other cybersecurity product asks you to trust them with your data. We removed ourselves from the equation entirely and leave all data and analysis with you.
+  </p>
+
+  <!-- PROOF STRIP -->
+  <div class="proof-strip">
+    <div class="proof-item"><span class="proof-icon">🛡️</span> <span>Privacy by Design</span></div>
+    <div class="proof-item"><span class="proof-icon">✨</span> <span>AI Native</span></div>
+    <div class="proof-item"><span class="proof-icon">📱</span> <span>iOS — on-device only</span></div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features">
+
+    <div class="feature">
+      <div class="feature-icon">📱</div>
+      <div class="feature-text">
+        <div class="feature-title">On-device risk score</div>
+        <div class="feature-desc">Your personalised score is calculated locally on your phone. It never leaves your device – not encrypted in transit, not stored on a server. All computations entirely on your phone using its on-device AI.</div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🔍</div>
+      <div class="feature-text">
+        <div class="feature-title">Scan for leaked information</div>
+        <div class="feature-desc">Find out what's publicly exposed about you online. We scan the web and generate a personalised report that shows where you have been exposed. We deliver the report — we cannot read who it's for, or what's inside it.</div>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-text">
+        <div class="feature-title">Threat tools with no data trail</div>
+        <div class="feature-desc">Scan QR codes and incoming calls before you act on them. We see none of what you scan. The verdict is returned to your device. Nothing you check is logged, stored, or associated with your profile.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider"></div>
+
+  <form id="signup-form" novalidate>
+    <!-- EXIT SURVEY -->
+    <div class="exit-survey">
+      <div class="exit-label">One quick question (optional): What made you sign up?</div>
+      <textarea class="exit-input" id="exit-text" placeholder="Tell us in your own words — this helps us build something you'll actually use…"></textarea>
+    </div>
+
+    <!-- CTA ZONE -->
+    <div class="cta-zone">
+      <div class="cta-trust">
+        <span>✓ <span>Free to start</span></span>
+        <span>✓ <span>No card required</span></span>
+        <span>✓ <span>App Store launch coming soon</span></span>
+      </div>
+      <div class="email-row">
+        <input type="email" class="email-input" id="email" placeholder="your@email.com" autocomplete="email" required />
+        <button type="submit" class="cta-btn" id="cta-btn">Join the early access waitlist</button>
+      </div>
+      <div class="cta-sub">We'll notify you the moment early access opens. No spam, ever. Unsubscribe anytime.</div>
+      <div class="form-error" id="form-error"></div>
+    </div>
+  </form>
+
+  <!-- THANK YOU STATE (hidden until submit) -->
+  <div class="thankyou" id="thankyou">
+    <div class="ty-icon">🎉</div>
+    <div class="ty-heading">You're on the waitlist.</div>
+    <div class="ty-sub">We'll be in touch when early access opens. Thanks for joining us early.</div>
+  </div>
+
+</div>
+
+<script>
+  const VARIANT = 'B';
+  const pageStart = Date.now();
+  let timeReported = false;
+  let submitted = false;
+
+  // ── Form submit → PostHog ──
+  document.getElementById('signup-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const emailEl = document.getElementById('email');
+    const errEl   = document.getElementById('form-error');
+    const btn     = document.getElementById('cta-btn');
+    const email   = emailEl.value.trim();
+    const exit    = document.getElementById('exit-text').value.trim();
+
+    errEl.textContent = '';
+    emailEl.classList.remove('error');
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailEl.classList.add('error');
+      errEl.textContent = 'Please enter a valid email.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      if (window.posthog && posthog.identify) {
+        posthog.identify(email, { email: email });
+      }
+      if (window.posthog && posthog.capture) {
+        posthog.capture('email_submitted', {
+          variant: VARIANT,
+          email: email,
+          exit_survey_text: exit,
+          time_to_submit_seconds: Math.round((Date.now() - pageStart) / 1000)
+        });
+      }
+    } catch (err) { console.warn(err); }
+
+    submitted = true;
+
+    // Brief delay so the event flushes before the form unmounts
+    setTimeout(() => {
+      document.getElementById('signup-form').style.display = 'none';
+      document.getElementById('thankyou').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 300);
+  });
+
+  // ── Time-on-page reporting ──
+  function reportTime() {
+    if (timeReported) return;
+    timeReported = true;
+    const seconds = Math.round((Date.now() - pageStart) / 1000);
+    try {
+      if (window.posthog && posthog.capture) {
+        posthog.capture('page_exit', {
+          variant: VARIANT,
+          seconds_on_page: seconds,
+          submitted: submitted
+        });
+      }
+    } catch (err) {}
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') reportTime();
+  });
+  window.addEventListener('pagehide', reportTime);
+</script>
+</body>
+</html>
